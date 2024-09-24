@@ -12,5 +12,12 @@ boot.o: boot.S
 box.o: box.S
 	aarch64-linux-gnu-gcc -g -MMD -c box.S -o box.o
 
+run:
+	qemu-system-aarch64 -machine raspi3b   -kernel kernel.elf
+
+dubug:
+	qemu-system-aarch64 -machine raspi3b  -S -s -kernel kernel.elf &
+	ddd --debugger 'gdb-multiarch -ex "target remote localhost:1234" -ex "break main" -ex "continue"' kernel.elf
+
 clean:
 	rm -f *.o *.d kernel.elf 
