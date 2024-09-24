@@ -13,4 +13,4 @@ box.o: box.S
 	aarch64-linux-gnu-gcc -g -MMD -c box.S -o box.o
 
 clean:
-	rm -f *.o kernel.elf
+	rm -f *.o *.d kernel.elf 
