@@ -1,6 +1,4 @@
-#include "libos.h"
-#include <unistd.h>
-#include <stdio.h>
+#include "kernel.h"
 
 
 extern int box(int srow, int scol, int erow, int ecol);
@@ -21,28 +19,23 @@ extern int box(int srow, int scol, int erow, int ecol);
 	// The values that you should pass for print_to are row = 24, 
 	//   column= 59, and string = "Hello world"
 
-void fill_scr(int srow, int scol, int erow, int ecol){
-
-    for (int i = srow; i <= erow; i++){
-        for (int j = scol; j <= ecol; j++ )
-            putc_to(i, j, '+');
-    }
-
-}
-void clear_scr(int srow, int scol, int erow, int ecol){
-
-    for (int i = srow; i <= erow; i++){
-        for (int j = scol; j <= ecol; j++ )
-            putc_to(i, j, ' ');
-    }
-}
-
 int main(){
 
     clear_scr(21, 49, 27, 79);
     int height = term_txtheight();
     int width = term_txtwidth();
-    printf("height: %d, width: %d", height, width);
+    char sheight[5];
+    char swidth[5];
+
+    intToStr(height,sheight);
+    intToStr(width,swidth);
+
+    for( int i = 0; i < 5; i++)
+        putc_to(22, 50 + i, sheight[i]);
+    for( int i = 0; i < 5; i++)
+        putc_to(24, 50 + i, swidth[i]);
+    
+    
     int returnVal = box(21, 49, 27, 79);
     
     return 0;
