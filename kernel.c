@@ -1,5 +1,7 @@
 #include "libos.h"
 #include <unistd.h>
+#include <stdio.h>
+
 
 extern int box(int srow, int scol, int erow, int ecol);
 // int main:
@@ -38,7 +40,9 @@ void clear_scr(int srow, int scol, int erow, int ecol){
 int main(){
 
     clear_scr(21, 49, 27, 79);
-
+    int height = term_txtheight();
+    int width = term_txtwidth();
+    printf("height: %d, width: %d", height, width);
     int returnVal = box(21, 49, 27, 79);
     
     return 0;

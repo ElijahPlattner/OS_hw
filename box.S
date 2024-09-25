@@ -55,31 +55,37 @@ _box_check_box_:
     stp     x29, x30, [sp, -16]!
 
     // Save the arguments.  Called functions may overwrite x0-x3
+    // sr in w0, sc in w1, er int w2, ec in w3
     sub     sp, sp, 32
     stp     x0, x1, [sp]
     stp     x2, x3, [sp, 16]
-         
-        
-    //allocate memory on stack
-    sub     sp, sp, 32
     
-    //determine height, save to stack
-    bl term_txtheight
-    str     x0, [sp]
+    //determine height and exit if the end row is greater than the height
+    bl      term_txtheight
+    ldr     w1, [sp, 16]
+    cmp     x0, w1
+    ble     _box_check_box_exit_
 
-    //determine width, save to stack
-    bl term_txtwidth
-    str     x0, [sp, 8]
+    //determine height and exit if the end row is greater than the height
+    bl      term_txtwidth
+    ldr     w1, [sp, 24]
+    cmp     x0, w1
+    ble     _box_check_box_exit_
 
-    //load vals back into registers
-    ldp x1, x2, [sp]
-    add sp, sp, 16
+    //load origional arguments back into regs
+    ldp     x0, x1, [sp]
+    ldp     x2, x3, [sp, 16]
 
-    ldp x3, x4, [sp] 
-    add sp, sp, 16
 
-    ldp x5, x6, [sp]
-    add sp, sp, 16 
+    //make sure er > sr & ec > sc
+    
+
+_box_check_box_exit_:
+    add     sp, sp, 32   // pop save arg regs
+
+    ldp     x29, x30, [sp], 16
+    ret
+
 
 
 
