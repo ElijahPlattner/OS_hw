@@ -27,16 +27,17 @@ int main(){
     char sheight[5];
     char swidth[5];
 
-    intToStr(height,sheight);
-    intToStr(width,swidth);
+    print_err();
+    // intToStr(height,sheight);
+    // intToStr(width,swidth);
 
-    for( int i = 0; i < 5; i++)
-        putc_to(22, 50 + i, sheight[i]);
-    for( int i = 0; i < 5; i++)
-        putc_to(24, 50 + i, swidth[i]);
+    // for( int i = 0; i < 5; i++)
+    //     putc_to(22, 50 + i, sheight[i]);
+    // for( int i = 0; i < 5; i++)
+    //     putc_to(24, 50 + i, swidth[i]);
     
     
-    int returnVal = box(21, 49, 27, 79);
+    //int returnVal = box(21, 49, 27, 79);
     
     return 0;
 }

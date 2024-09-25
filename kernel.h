@@ -18,6 +18,18 @@ void clear_scr(int srow, int scol, int erow, int ecol){
     }
 }
 
+void print_err()
+{
+    //22, 50
+    char err[6]="error";
+
+    for(int i = 0; i < 6; i++ )
+        {
+            putc_to(22, 50+i, err[i]);
+        }
+    }
+
+//convert int to string
 void intToStr(int N, char *str) {
     int i = 0;
   
