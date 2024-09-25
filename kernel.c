@@ -34,9 +34,7 @@ void clear_scr(int srow, int scol, int erow, int ecol){
 }
 
 int main(){
-
-    fill_scr(21, 49, 27, 79);
-    sleep(2);
+    
     clear_scr(21, 49, 27, 79);
     
     return 0;
