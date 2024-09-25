@@ -2,6 +2,7 @@
 
 
 extern int box(int srow, int scol, int erow, int ecol);
+extern void print_err();
 // int main:
 // 	call clear_scr with the start row, start column, end row, and end column
 // 	call the box function with the start row, start column
@@ -27,7 +28,7 @@ int main(){
     char sheight[5];
     char swidth[5];
 
-    print_err();
+    //print_err();
     // intToStr(height,sheight);
     // intToStr(width,swidth);
 
@@ -37,7 +38,7 @@ int main(){
     //     putc_to(24, 50 + i, swidth[i]);
     
     
-    //int returnVal = box(21, 49, 27, 79);
+    int returnVal = box(21, 49, 200, 200);
     
     return 0;
 }

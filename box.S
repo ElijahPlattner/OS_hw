@@ -65,14 +65,16 @@ _box_check_box_:
     mov     x1, 0
     ldr     x1, [sp, 16]
     cmp     x0, x1
-    ble     _box_check_box_exit_
+    //ble     _box_check_box_exit_
+    ble     print_err
 
     //determine height and exit if the end row is greater than the height
     bl      term_txtwidth
     mov     x1, 0
     ldr     x1, [sp, 24]
     cmp     x0, x1
-    ble     _box_check_box_exit_
+    //ble     _box_check_box_exit_ //also add into this to make w0 0
+    ble     print_err
 
     //load origional arguments back into regs
     ldp     x0, x1, [sp]
