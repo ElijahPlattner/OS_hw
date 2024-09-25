@@ -60,33 +60,49 @@ _box_check_box_:
     stp     x0, x1, [sp]
     stp     x2, x3, [sp, 16]
     
-    //determine height and exit if the end row is greater than the height
+    //determine height and error if the end row is greater than the height
     bl      term_txtheight
     mov     x1, 0
-    ldr     x1, [sp, 16]
+    ldr     w1, [sp, 16]
     cmp     x0, x1
     //ble     _box_check_box_exit_
     ble     print_err
 
-    //determine height and exit if the end row is greater than the height
+    //determine height and error if the end row is greater than the height
     bl      term_txtwidth
     mov     x1, 0
-    ldr     x1, [sp, 24]
+    ldr     w1, [sp, 24]
     cmp     x0, x1
     //ble     _box_check_box_exit_ //also add into this to make w0 0
     ble     print_err
 
     //load origional arguments back into regs
-    ldp     x0, x1, [sp]
-    ldp     x2, x3, [sp, 16]
+    ldp     w0, w1, [sp]
+    ldp     w2, w3, [sp, 16]
+
+    //error if er is -le sr
+    cmp x2, x0
+    ble print_err
+
+    //error if ec is -le sc
+    cmp x3, x1
+    ble print_err
 
 
-    //make sure er > sr & ec > sc
 
-
-_box_check_box_exit_:
+//exit box func with error
+_box_check_box_exit_1_:
+    mov x0, 1
     add     sp, sp, 32   // pop save arg regs
+    ldp     x29, x30, [sp], 16
+    ret
 
+
+
+//exit box func with return 0
+_box_check_box_exit_0_:
+    mov x0, 0
+    add     sp, sp, 32   // pop save arg regs
     ldp     x29, x30, [sp], 16
     ret
 

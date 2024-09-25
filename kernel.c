@@ -38,7 +38,7 @@ int main(){
     //     putc_to(24, 50 + i, swidth[i]);
     
     
-    int returnVal = box(21, 49, 200, 200);
+    int returnVal = box(21, 49, 27, 79);
     
     return 0;
 }
