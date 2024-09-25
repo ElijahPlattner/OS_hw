@@ -15,7 +15,7 @@ box.o: box.S
 run:
 	qemu-system-aarch64 -machine raspi3b   -kernel kernel.elf
 
-dubug:
+debug:
 	qemu-system-aarch64 -machine raspi3b  -S -s -kernel kernel.elf &
 	ddd --debugger 'gdb-multiarch -ex "target remote localhost:1234" -ex "break main" -ex "continue"' kernel.elf
 

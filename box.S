@@ -18,7 +18,7 @@ box:
     cmp     w0, 0
     bne     _box_error_
 
- 
+ /*
     // first, draw the corners:
     // +        +
     // +        +
@@ -38,7 +38,7 @@ box:
 
     mov     w0, 0
     b       _box_exit_
-
+ */
 _box_error_:
     mov     w0, 1
 
