@@ -22,14 +22,14 @@ box:
     cmp     w0, 0
     bne     _box_error_
 
- /*
+ 
     // first, draw the corners:
     // +        +
     // +        +
     ldp     x0, x1, [sp]
     ldp     x2, x3, [sp, 16]
     bl      _box_draw_corners_
-
+/*
     // Now, draw the top and bottom:
     // +------+
     // +------+
