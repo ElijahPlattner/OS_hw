@@ -1,5 +1,7 @@
 #include "libos.h"
 #include <unistd.h>
+
+extern int box(int srow, int scol, int erow, int ecol);
 // int main:
 // 	call clear_scr with the start row, start column, end row, and end column
 // 	call the box function with the start row, start column
@@ -34,8 +36,10 @@ void clear_scr(int srow, int scol, int erow, int ecol){
 }
 
 int main(){
-    
+
     clear_scr(21, 49, 27, 79);
+
+    int returnVal = box(21, 49, 27, 79);
     
     return 0;
 }
