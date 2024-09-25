@@ -62,14 +62,16 @@ _box_check_box_:
     
     //determine height and exit if the end row is greater than the height
     bl      term_txtheight
-    ldr     w1, [sp, 16]
-    cmp     x0, w1
+    mov     x1, 0
+    ldr     x1, [sp, 16]
+    cmp     x0, x1
     ble     _box_check_box_exit_
 
     //determine height and exit if the end row is greater than the height
     bl      term_txtwidth
-    ldr     w1, [sp, 24]
-    cmp     x0, w1
+    mov     x1, 0
+    ldr     x1, [sp, 24]
+    cmp     x0, x1
     ble     _box_check_box_exit_
 
     //load origional arguments back into regs
@@ -78,7 +80,7 @@ _box_check_box_:
 
 
     //make sure er > sr & ec > sc
-    
+
 
 _box_check_box_exit_:
     add     sp, sp, 32   // pop save arg regs
