@@ -1,3 +1,7 @@
+.section .data
+plus:   .byte   '+'
+dash:   .byte   '-'
+
 .global     box
 box:
  
@@ -48,6 +52,7 @@ _box_exit_:
     ldp     x29, x30, [sp], 16
     ret
 
+//test box bounds
 _box_check_box_:
     
     // standard entry: save link and stack frame registers
@@ -66,7 +71,7 @@ _box_check_box_:
     ldr     w1, [sp, 16]
     cmp     x0, x1
     //ble     _box_check_box_exit_
-    ble     print_err
+    ble     _box_check_box_exit_1_
 
     //determine height and error if the end row is greater than the height
     bl      term_txtwidth
@@ -74,7 +79,7 @@ _box_check_box_:
     ldr     w1, [sp, 24]
     cmp     x0, x1
     //ble     _box_check_box_exit_ //also add into this to make w0 0
-    ble     print_err
+    ble     _box_check_box_exit_1_
 
     //load origional arguments back into regs
     ldp     w0, w1, [sp]
@@ -82,11 +87,15 @@ _box_check_box_:
 
     //error if er is -le sr
     cmp x2, x0
-    ble print_err
+    ble _box_check_box_exit_1_
 
     //error if ec is -le sc
     cmp x3, x1
-    ble print_err
+    ble _box_check_box_exit_1_
+
+    //exit 0 if it passes all tests
+    bl _box_check_box_exit_0_
+
 
 
 
@@ -105,6 +114,20 @@ _box_check_box_exit_0_:
     add     sp, sp, 32   // pop save arg regs
     ldp     x29, x30, [sp], 16
     ret
+
+_box_draw_corners_:
+    // standard entry: save link and stack frame registers
+    //    load the stack frame with the pointer to current frame
+    stp     x29, x30, [sp, -16]!
+
+    // Save the arguments.  Called functions may overwrite x0-x3
+    sub     sp, sp, 32
+    stp     x0, x1, [sp]
+    stp     x2, x3, [sp, 16]
+
+    ldp x0, x1, [sp]
+    mov x2, plus
+    bl putc_to
 
 
 

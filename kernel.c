@@ -3,6 +3,7 @@
 
 extern int box(int srow, int scol, int erow, int ecol);
 extern void print_err();
+extern void putc_to();
 // int main:
 // 	call clear_scr with the start row, start column, end row, and end column
 // 	call the box function with the start row, start column
