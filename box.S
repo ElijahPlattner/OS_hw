@@ -1,6 +1,6 @@
-.section .data
+.section .data 
 plus:   .byte   '+'
-dash:   .byte   '-'
+dash:     .byte   '-'
 
 .section .text
 
@@ -32,6 +32,10 @@ box:
     ldp     x2, x3, [sp, 16]
     bl      _box_draw_corners_
 
+    ldp     x0, x1, [sp]
+    ldp     x2, x3, [sp, 16]
+    bl      _box_draw_top_bottom_
+
  
 /*
     // Now, draw the top and bottom:
@@ -56,7 +60,9 @@ _box_exit_:
     ldp     x29, x30, [sp], 16
     ret
 
+//
 //test box bounds
+//
 _box_check_box_:
     
     // standard entry: save link and stack frame registers
@@ -102,8 +108,9 @@ _box_check_box_:
 
 
 
-
+//
 //exit box func with error
+//
 _box_check_box_exit_1_:
     mov     x0, 1
     add     sp, sp, 32   // pop save arg regs
@@ -112,13 +119,18 @@ _box_check_box_exit_1_:
 
 
 
+//
 //exit box func with return 0
+//
 _box_check_box_exit_0_:
     mov     x0, 0
     add     sp, sp, 32   // pop save arg regs
     ldp     x29, x30, [sp], 16
     ret
 
+//
+//draw the four corners of the box
+//
 _box_draw_corners_:
     // standard entry: save link and stack frame registers
     //    load the stack frame with the pointer to current frame
@@ -150,3 +162,160 @@ _box_draw_corners_:
     ldp x0, x1, [sp, 16]
     ldr w2, plus
     bl     putc_to
+
+    bl _box_draw_corners_exit_
+
+//
+//draw corners exit function
+//
+_box_draw_corners_exit_:
+    add     sp, sp, 32   // pop save arg regs
+
+    ldp     x29, x30, [sp], 16
+    ret
+
+//
+//draw top and bottom lines
+//
+_box_draw_top_bottom_:
+    // standard entry: save link and stack frame registers
+    //    load the stack frame with the pointer to current frame
+    stp     x29, x30, [sp, -16]!
+
+    // Save the arguments.  Called functions may overwrite x0-x3
+    sub     sp, sp, 32
+    stp     x0, x1, [sp]
+    stp     x2, x3, [sp, 16]
+
+
+//
+//draw the top line
+    //set the pos of the first dash to be directly folowing the plus
+    add x4, x1, #1
+
+_top_while_:
+
+    //if we have reached the end of the row, exit the loop
+    cmp x4, x3
+    bge _top_endwhile_
+    
+    //set up the args for putc_to
+    mov x1, x4
+    mov w2, '-'
+    bl putc_to
+
+    //increment position and pull args back into origional regs
+    add x4, x4, 1
+    ldp     x0, x1, [sp]
+    ldp     x2, x3, [sp, 16]
+
+
+    b _top_while_
+_top_endwhile_:
+    
+
+//
+//draw the bottom line
+    //set the pos of the first dash to be directly folowing the plus
+    add x4, x1, #1
+
+_bottom_while_:
+
+    //if we have reached the end of the row, exit the function
+    cmp x4, x3
+    bge _box_draw_top_bottom_exit_
+
+    //set up the args for putc_to
+    mov x0, x2
+    mov x1, x4
+    mov w2, '-'
+    bl putc_to
+
+    //increment position and pull args back into origional regs
+    add x4, x4, 1
+    ldp     x0, x1, [sp]
+    ldp     x2, x3, [sp, 16]
+
+
+    b _bottom_while_
+
+//
+//exit top, bottom drawing function
+//
+_box_draw_top_bottom_exit_:
+    add     sp, sp, 32   // pop save arg regs
+
+    ldp     x29, x30, [sp], 16
+    ret
+
+
+
+
+_box_draw_right_left_:
+// standard entry: save link and stack frame registers
+    //    load the stack frame with the pointer to current frame
+    stp     x29, x30, [sp, -16]!
+
+    // Save the arguments.  Called functions may overwrite x0-x3
+    sub     sp, sp, 32
+    stp     x0, x1, [sp]
+    stp     x2, x3, [sp, 16]
+
+//
+//draw the left line
+    //set the pos of the first bar to be directly below the plus
+    add x4, x0, #1
+
+_left_while_:
+
+    //if we have reached the end of the column, exit the loop
+    cmp x4, x2
+    bge _left_endwhile_
+    
+    //set up the args for putc_to
+    mov x0, x4
+    mov w2, '-'
+    bl putc_to
+
+    //increment position and pull args back into origional regs
+    add x4, x4, 1
+    ldp     x0, x1, [sp]
+    ldp     x2, x3, [sp, 16]
+
+
+    b _left_while_
+_left_endwhile_:
+
+//
+//draw the right line
+    //set the pos of the first dash to be directly below the plus
+    add x4, x0, #1
+
+_right_while_:
+
+    //if we have reached the end of the column, exit the function
+    cmp x4, x3
+    bge _box_draw_right_left_exit_
+
+    //set up the args for putc_to
+    mov x0, x3
+    mov x1, x4
+    mov w2, '-'
+    bl putc_to
+
+    //increment position and pull args back into origional regs
+    add x4, x4, 1
+    ldp     x0, x1, [sp]
+    ldp     x2, x3, [sp, 16]
+
+
+    b _right_while_
+
+//
+//exit top, bottom drawing function
+//
+_box_draw_right_left_exit_:
+    add     sp, sp, 32   // pop save arg regs
+
+    ldp     x29, x30, [sp], 16
+    ret
