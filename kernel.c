@@ -1,12 +1,15 @@
-#include "libos.h"
-#include <unistd.h>
-#include <stdio.h>
+#include "kernel.h"
 
-void clear_scr(int srow, int scol, int erow, int ecol){
+extern int box(int srow, int scol, int erow, int ecol);
 
-    for (int i = srow; i <= erow; i++){
-        for (int j = scol; j <= ecol; j++ )
-            putc_to(i, j, ' ');
-    }
+int main(){
+
+    //clear the screen
+    clear_scr(21, 49, 27, 79);
+
+    //return the val
+    int returnVal = box(21, 49, 27, 79);
+    print_to(24, 59, "Hello World!");
+    
+    return returnVal;
 }
-
