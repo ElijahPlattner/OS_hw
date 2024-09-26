@@ -1,6 +1,8 @@
-.section .data
+    .section .data
 plus:   .byte   '+'
 dash:   .byte   '-'
+
+.section .text
 
 .global     box
 box:
@@ -29,6 +31,8 @@ box:
     ldp     x0, x1, [sp]
     ldp     x2, x3, [sp, 16]
     bl      _box_draw_corners_
+
+ 
 /*
     // Now, draw the top and bottom:
     // +------+
@@ -101,7 +105,7 @@ _box_check_box_:
 
 //exit box func with error
 _box_check_box_exit_1_:
-    mov x0, 1
+    mov     x0, 1
     add     sp, sp, 32   // pop save arg regs
     ldp     x29, x30, [sp], 16
     ret
@@ -110,7 +114,7 @@ _box_check_box_exit_1_:
 
 //exit box func with return 0
 _box_check_box_exit_0_:
-    mov x0, 0
+    mov     x0, 0
     add     sp, sp, 32   // pop save arg regs
     ldp     x29, x30, [sp], 16
     ret
@@ -125,12 +129,16 @@ _box_draw_corners_:
     stp     x0, x1, [sp]
     stp     x2, x3, [sp, 16]
 
-    ldp x0, x1, [sp]
-    mov x2, plus
-    bl putc_to
+    
+    ldp x0, x1, [sp, 8]
+    ldr w2, plus
+    bl     putc_to
+
+    
 
 
 
+    
 
 
     
