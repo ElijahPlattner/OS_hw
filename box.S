@@ -1,4 +1,4 @@
-    .section .data
+.section .data
 plus:   .byte   '+'
 dash:   .byte   '-'
 
@@ -19,11 +19,11 @@ box:
     // sr in w0, sc in w1, er int w2, ec in w3
     
     // Make sure the argument are valid
-
+    
     bl      _box_check_box_
     cmp     w0, 0
     bne     _box_error_
-
+    
  
     // first, draw the corners:
     // +        +
@@ -72,7 +72,7 @@ _box_check_box_:
     //determine height and error if the end row is greater than the height
     bl      term_txtheight
     mov     x1, 0
-    ldr     w1, [sp, 16]
+    ldr     x1, [sp, 16]
     cmp     x0, x1
     //ble     _box_check_box_exit_
     ble     _box_check_box_exit_1_
@@ -80,19 +80,19 @@ _box_check_box_:
     //determine height and error if the end row is greater than the height
     bl      term_txtwidth
     mov     x1, 0
-    ldr     w1, [sp, 24]
+    ldr     x1, [sp, 24]
     cmp     x0, x1
     //ble     _box_check_box_exit_ //also add into this to make w0 0
     ble     _box_check_box_exit_1_
 
     //load origional arguments back into regs
-    ldp     w0, w1, [sp]
-    ldp     w2, w3, [sp, 16]
+    ldp     x0, x1, [sp]
+    ldp     x2, x3, [sp, 16]
 
     //error if er is -le sr
     cmp x2, x0
     ble _box_check_box_exit_1_
-
+    
     //error if ec is -le sc
     cmp x3, x1
     ble _box_check_box_exit_1_
@@ -129,18 +129,24 @@ _box_draw_corners_:
     stp     x0, x1, [sp]
     stp     x2, x3, [sp, 16]
 
+    //top left
+    ldp x0, x1, [sp]
+    ldr w2, plus
+    bl     putc_to
     
-    ldp x0, x1, [sp, 8]
+    //bottom left
+    ldr x0, [sp,16]
+    ldr x1, [sp, 8]
     ldr w2, plus
     bl     putc_to
 
+    //top right
+    ldr x0, [sp]
+    ldr x1, [sp, 24]
+    ldr w2, plus
+    bl     putc_to
     
-
-
-
-    
-
-
-    
-
-
+    //bottom right
+    ldp x0, x1, [sp, 16]
+    ldr w2, plus
+    bl     putc_to
