@@ -24,22 +24,10 @@ extern void putc_to(unsigned int row, unsigned int col, const char c);
 int main(){
 
     clear_scr(21, 49, 27, 79);
-    int height = term_txtheight();
-    int width = term_txtwidth();
-    char sheight[5];
-    char swidth[5];
 
-    //print_err();
-    // intToStr(height,sheight);
-    // intToStr(width,swidth);
 
-    // for( int i = 0; i < 5; i++)
-    //     putc_to(22, 50 + i, sheight[i]);
-    // for( int i = 0; i < 5; i++)
-    //     putc_to(24, 50 + i, swidth[i]);
-    
-    
     int returnVal = box(21, 49, 27, 79);
+    putc_to(24, 59, "Hello World!");
     
-    return 0;
+    return returnVal;
 }

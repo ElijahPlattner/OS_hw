@@ -24,7 +24,6 @@ box:
     cmp     w0, 0
     bne     _box_error_
     
- 
     // first, draw the corners:
     // +        +
     // +        +
@@ -32,28 +31,29 @@ box:
     ldp     x2, x3, [sp, 16]
     bl      _box_draw_corners_
 
+    // draw top and bottom sides
     ldp     x0, x1, [sp]
     ldp     x2, x3, [sp, 16]
     bl      _box_draw_top_bottom_
 
- 
-/*
-    // Now, draw the top and bottom:
-    // +------+
-    // +------+
-
-    // You figure out what goes here
-
     // draw left and right sides
+    ldp     x0, x1, [sp]
+    ldp     x2, x3, [sp, 16]
+    bl      _box_draw_left_right_
 
-    // You figure out what goes here
-
+    //exit
     mov     w0, 0
     b       _box_exit_
- */
+ 
+//
+//return 1 if func has error
+//
 _box_error_:
     mov     w0, 1
 
+//
+//exit the box func
+//
 _box_exit_:
     add     sp, sp, 32   // pop save arg regs
 
@@ -211,8 +211,10 @@ _top_while_:
 
 
     b _top_while_
+
+//draw the bottom line
+//
 _top_endwhile_:
-    
 
 //
 //draw the bottom line
@@ -274,7 +276,7 @@ _left_while_:
     
     //set up the args for putc_to
     mov x0, x4
-    mov w2, '-'
+    mov w2, '|'
     bl putc_to
 
     //increment position and pull args back into origional regs
@@ -294,13 +296,13 @@ _left_endwhile_:
 _right_while_:
 
     //if we have reached the end of the column, exit the function
-    cmp x4, x3
+    cmp x4, x2
     bge _box_draw_right_left_exit_
 
     //set up the args for putc_to
-    mov x0, x3
-    mov x1, x4
-    mov w2, '-'
+    mov x0, x4
+    mov x1, x3
+    mov w2, '|'
     bl putc_to
 
     //increment position and pull args back into origional regs
@@ -312,7 +314,7 @@ _right_while_:
     b _right_while_
 
 //
-//exit top, bottom drawing function
+//exit right, left drawing function
 //
 _box_draw_right_left_exit_:
     add     sp, sp, 32   // pop save arg regs
