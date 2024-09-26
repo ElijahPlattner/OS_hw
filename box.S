@@ -1,6 +1,5 @@
 .section .data 
 plus:   .byte   '+'
-dash:     .byte   '-'
 
 .section .text
 
@@ -39,7 +38,7 @@ box:
     // draw left and right sides
     ldp     x0, x1, [sp]
     ldp     x2, x3, [sp, 16]
-    bl      _box_draw_left_right_
+    bl      _box_draw_right_left_
 
     //exit
     mov     w0, 0
