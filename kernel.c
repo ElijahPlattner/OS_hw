@@ -1,5 +1,8 @@
 #include "kernel.h"
 
+void enqueue(PCB_Q_t *q, PCB_t *pcb);
+PCB_t *dequeue(PCB_Q_t *q);
+
 extern int box(int srow, int scol, int erow, int ecol);
 
 int main(){
