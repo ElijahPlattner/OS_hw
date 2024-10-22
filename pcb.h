@@ -8,10 +8,10 @@
 struct PCB_t;
 
 //PCB_t struct def
-typedef struct {
+typedef struct{
     uint64_t sp;
     uint32_t pid;
-    PCB_t * next;
+    struct PCB_t * next;
 
 } PCB_t;
 
