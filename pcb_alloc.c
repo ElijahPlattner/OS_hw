@@ -9,7 +9,7 @@ PCB_t pcb_mem[MAX_PCB];
 uint32_t next_pcb = 0;
 
 // Function to return pointer to newly allocated memory
-PCB_t *alloc_pcb(void) {
+PCB_t *alloc_pcb() {
     if (next_pcb == MAX_PCB) {
         return NULL;
     }

@@ -6,7 +6,7 @@
 #include <stdint.h>
 
 // Declare the function prototype for alloc_pcb
-PCB_t *alloc_pcb(void);
+PCB_t *alloc_pcb();
 
 #endif // PCB_ALLOC_H
 

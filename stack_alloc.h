@@ -5,7 +5,7 @@
 #include <stddef.h>
 
 // Declare the function prototype for alloc_stack
-uint64_t *alloc_stack(void);
+uint64_t *alloc_stack();
 
 #endif // STACK_ALLOC_H
 
