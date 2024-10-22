@@ -1,12 +1,8 @@
 #include "libos.h"
-#include <stdint.h>
-#include "pcb_alloc.h"
-#include "stack_alloc.h"
+#include "globals.h"
 
-//global variable
-int next_pid = 0;
-PCB_Q_t* q;
 
+//function to clear the screen
 void clear_scr(int srow, int scol, int erow, int ecol){
 
     for (int i = srow; i <= erow; i++){
@@ -15,80 +11,42 @@ void clear_scr(int srow, int scol, int erow, int ecol){
     }
 };
 
-void enqueue(PCB_Q_t *q, PCB_t *pcb){
+//process code for process p1
+void p1(){
+    int num = 0;
+    char output_char;
+    char message[] = "Process 1: 0";
 
-    //if the queue has nothing in it
-    if (q->tail == NULL){
-        q->head = q->tail = pcb;
-        pcb->next = NULL;
-        return;
+    //   print a box from row 9, column 23 to row 11, column 39
+    box(9, 23, 11, 39);
+
+    //   print_to the message "Process 1: 0" at row 10 column 25
+    
+    print_to(10, 25, message);
+    
+    while("inf_loop" == "inf_loop"){
+        //      convert num to a character
+        output_char = num + '0';
+
+        //     set message[11] to the character number
+        message[11] = output_char;
+
+        // 	print the message at row 10 column 25
+        print_to(10, 25, message);
+        
+        num++;
+
+        //     if num is greater than 9, set num to zero
+        if (num > 9)
+            num = 0;
+
+        //call dispatch
+        dispatch();
+
     }
+}
 
-    //otherwise add pcb to the end of the queue
-    q->tail->next = pcb;
-    q->tail = pcb;
-    q->tail->next = NULL;
-
-};
-
-PCB_t *dequeue(PCB_Q_t *q){
-
-    //if queue is empty
-    if (q->tail == NULL){
-        return NULL;
-    } 
-
-    //store the head of queue and update head
-    PCB_t * temp = q->head;
-    q->head = q->head->next;
-
-    if (q->head == NULL)
-        q->tail = NULL;
-    
-    return temp;
-
-
-};
-
-int create_process(int (*code_address)()) {
-
-    //set stackptr to return value of calling alloc_stack() to allocate a stack
-    uint64_t stackptr = alloc_stack();
-
-    //check to make sure stackptr is not null 
-    if(stackptr == NULL){
-        return -1;
-    } 
-    
-    //set stack pointer (sp) to the bottom of the stack
-    uint32_t * sp = stackptr + 1024;
-    
-    //create context that will set gen purpose regs to 0
-    for(int i =1; i <= 31; i++){
-        sp--;
-
-        //set the value at which sp+30 points to code_address
-        if(i==30)
-            *sp = (uint64_t)code_address;
-        else
-            *sp = 0;
-    }
-
-    //     set pcb to the return value of alloc_pcb() to allocate a pcb for the process
-    PCB_t * pcb= alloc_pcb();
-
-	//check the pcb and if is null then return -1
-    if(pcb == NULL)
-        return -1;
-
-    //set the pcb's sp member to sp.
-    //set the pcb's pid member to next_pid
-    pcb->sp = sp;
-    pcb->pid= next_pid++;
-
-    //enqueue the pcb onto the ready queue  // ready queue will be a global
-    enqueue(q, pcb);
-
+//process code for process p2
+void p2(){
     return 0;
-
-    }
+}

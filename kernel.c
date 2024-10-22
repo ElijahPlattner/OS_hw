@@ -1,18 +1,43 @@
 #include "kernel.h"
 
-void enqueue(PCB_Q_t *q, PCB_t *pcb);
-PCB_t *dequeue(PCB_Q_t *q);
-
+//define externs
 extern int box(int srow, int scol, int erow, int ecol);
+extern void go();
 
 int main(){
 
+    int retval;
     //clear the screen
     clear_scr(21, 49, 27, 79);
+    //int returnVal = box(21, 49, 27, 79);
 
-    //return the val
-    int returnVal = box(21, 49, 27, 79);
-    print_to(24, 59, "Hello World!");
+    //print "Running processes" to the first line of the screen
+    print_to(1, 1, "Running processes");
+
+    //initialize rr queue data structure
+    PCB_Q_t * q;
+    q->head = q->tail = NULL;
+
+    //create four processes
+    retval = create_process(p1);
+    if(retval !=0)
+        return 1;
+
+    // retval = create_process(p2);
+    // if(retval !=0)
+    //     return 1;
     
-    return returnVal;
+    // retval = create_process(p1);
+    // if(retval !=0)
+    //     return 1;
+    
+    // retval = create_process(p2);
+    // if(retval !=0)
+    //     return 1;
+    
+    
+    //start processes
+    go();
+        
+    return 0;
 }
