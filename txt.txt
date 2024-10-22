@@ -6,4 +6,4 @@ aarch64-linux-gnu-ld: warning: kernel.elf has a LOAD segment with RWX permission
 aarch64-linux-gnu-ld: process.o: in function `create_process':
 /home/coursework/OS_hw/process.c:8: undefined reference to `alloc_stack'
 aarch64-linux-gnu-ld: /home/coursework/OS_hw/process.c:31: undefined reference to `alloc_pcb'
-make: *** [Makefile:27: kernel.elf] Error 1
+make: *** [Makefile:27: kernel.elf] Error 1 
