@@ -1,0 +1,9 @@
+aarch64-linux-gnu-ld -g -N -Ttext=0x100000 -o kernel.elf kernel.o process.o queue.o  boot.o box.o process_asm.o libos.a
+aarch64-linux-gnu-ld: process.o:/home/coursework/OS_hw/process.c:4: multiple definition of `next_pid'; kernel.o:/home/coursework/OS_hw/process.h:10: first defined here
+aarch64-linux-gnu-ld: queue.o:/home/coursework/OS_hw/queue.c:4: multiple definition of `ReadyQ'; kernel.o:/home/coursework/OS_hw/queue.h:6: first defined here
+aarch64-linux-gnu-ld: queue.o:/home/coursework/OS_hw/queue.c:5: multiple definition of `Running'; kernel.o:/home/coursework/OS_hw/queue.h:7: first defined here
+aarch64-linux-gnu-ld: warning: kernel.elf has a LOAD segment with RWX permissions
+aarch64-linux-gnu-ld: process.o: in function `create_process':
+/home/coursework/OS_hw/process.c:8: undefined reference to `alloc_stack'
+aarch64-linux-gnu-ld: /home/coursework/OS_hw/process.c:31: undefined reference to `alloc_pcb'
+make: *** [Makefile:27: kernel.elf] Error 1

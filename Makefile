@@ -11,7 +11,7 @@ LDFLAGS = -g -N -Ttext=0x100000
 ASMFLAGS = -g
 
 # Source files
-CSRC = kernel.c process.c queue.c
+CSRC = kernel.c pcb_alloc.c process.c queue.c stack_alloc.c
 ASMSRC = boot.S box.S process_asm.S
 
 # Object files
