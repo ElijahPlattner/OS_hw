@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include "pcb_alloc.h"
+#include "stack_alloc.h"
 #include "globals.h"
 
 
