@@ -1,46 +1,54 @@
-# Compiler and flags
+# Makefile for ARM kernel project
+
+all: kernel.elf
+
+# Define commands and flags
+CXX = aarch64-linux-gnu-g++
 CC = aarch64-linux-gnu-gcc
 LD = aarch64-linux-gnu-ld
 CFLAGS = -g -pedantic -Wall -Wextra -fPIC -std=gnu2x
-ASFLAGS = -g
-LD_FLAGS = -g -N -Ttext=0x100000
+LDFLAGS = -g -N -Ttext=0x100000
+ASMFLAGS = -g
 
 # Source files
-C_SOURCES = kernel.c process.c queue.c
-ASM_SOURCES = boot.S box.S process_asm.S
-OBJECTS = $(C_SOURCES:.c=.o) $(ASM_SOURCES:.S=.o)
-LIBS = libos.a
+CSRC = kernel.c process.c queue.c
+ASMSRC = boot.S box.S process_asm.S
 
-# Output file
-OUTPUT = kernel.elf
+# Object files
+COBJ = $(patsubst %.c,%.o,$(CSRC)) 
+ASMOBJ = $(patsubst %.S,%.o,$(ASMSRC))
+ALLOBJ = $(COBJ) $(ASMOBJ)
 
-# Default target
-all: $(OUTPUT)
+# External libraries
+OSLIB = libos.a
 
-# Linking
-$(OUTPUT): $(OBJECTS) $(LIBS)
-	$(LD) $(LD_FLAGS) -o $@ $(OBJECTS) $(LIBS)
+# Linking the kernel
+kernel.elf: $(COBJ) $(ASMOBJ) $(OSLIB)
+	$(LD) $(LDFLAGS) -o $@ $(COBJ) $(ASMOBJ) $(OSLIB)
 
-# Compiling C source files
-%.o: %.c
+# Rule to compile C files into object files
+$(COBJ): %.o: %.c
 	$(CC) $(CFLAGS) -MMD -c $< -o $@
 
-# Compiling Assembly source files
-%.o: %.S
-	$(CC) $(ASFLAGS) -MMD -c $< -o $@
+# Rule to assemble assembly files into object files
+$(ASMOBJ): %.o: %.S
+	$(CC) $(ASMFLAGS) -MMD -c $< -o $@
 
-# Running the kernel
+.PHONY: clean run debug compress
+
+# Running the kernel in QEMU
 run:
-	qemu-system-aarch64 -machine raspi3b -kernel $(OUTPUT)
+	qemu-system-aarch64 -machine raspi3b -kernel kernel.elf
 
-# Debugging the kernel
+# Debugging the kernel with GDB and QEMU
 debug:
-	qemu-system-aarch64 -machine raspi3b -S -s -kernel $(OUTPUT) &
-	ddd --debugger 'gdb-multiarch -ex "target remote localhost:1234" -ex "break main" -ex "continue"' $(OUTPUT)
+	qemu-system-aarch64 -machine raspi3b -S -s -kernel kernel.elf &
+	ddd --debugger 'gdb-multiarch -ex "target remote localhost:1234" -ex "break main" -ex "continue"' kernel.elf
 
-# Cleaning up
+# Cleaning object and output files
 clean:
-	rm -f *.o *.d $(OUTPUT)
+	rm -f *.o *.elf *.d
 
-# Include dependency files
--include $(OBJECTS:.o=.d)
+# Compress the project into a tar.gz archive
+compress:
+	bash -c 'dir=`pwd`; cd ..; tar -czf $$dir.tar.gz $$dir'
