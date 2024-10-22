@@ -2,12 +2,16 @@
 #define PCB_H
 
 #include <unistd.h>
+#include <stdint.h>
+
+// Forward declaration of PCB_t
+struct PCB_t;
 
 //PCB_t struct def
 typedef struct {
     uint64_t sp;
     uint32_t pid;
-    PCB_t * next; //
+    PCB_t * next;
 
 } PCB_t;
 
