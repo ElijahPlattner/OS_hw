@@ -1,6 +1,10 @@
 #include "libos.h"
 #include "globals.h"
 
+//define externs
+extern int box(int srow, int scol, int erow, int ecol);
+extern void go();
+extern void dispatch();
 
 //function to clear the screen
 void clear_scr(int srow, int scol, int erow, int ecol){
@@ -9,7 +13,7 @@ void clear_scr(int srow, int scol, int erow, int ecol){
         for (int j = scol; j <= ecol; j++ )
             putc_to(i, j, ' ');
     }
-};
+}
 
 //process code for process p1
 void p1(){
@@ -24,7 +28,7 @@ void p1(){
     
     print_to(10, 25, message);
     
-    while("inf_loop" == "inf_loop"){
+    while(0 == 0){
         //      convert num to a character
         output_char = num + '0';
 
@@ -48,5 +52,5 @@ void p1(){
 
 //process code for process p2
 void p2(){
-    return 0;
+    return;
 }
