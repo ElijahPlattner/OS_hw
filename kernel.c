@@ -3,7 +3,7 @@
 //define externs
 extern int box(int srow, int scol, int erow, int ecol);
 extern void go();
-extern void dispatch();
+extern void dispatch(void);
 int p1();
 
 int main(){

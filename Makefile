@@ -1,36 +1,46 @@
-all: kernel.elf
+# Compiler and flags
+CC = aarch64-linux-gnu-gcc
+LD = aarch64-linux-gnu-ld
+CFLAGS = -g -pedantic -Wall -Wextra -fPIC -std=gnu2x
+ASFLAGS = -g
+LD_FLAGS = -g -N -Ttext=0x100000
 
-kernel.elf: kernel.o process.o queue.o boot.o box.o go.o process_asm.o libos.a
-	aarch64-linux-gnu-ld -g -N -Ttext=0x100000 -o kernel.elf kernel.o boot.o box.o libos.a
+# Source files
+C_SOURCES = kernel.c process.c queue.c
+ASM_SOURCES = boot.S box.S process_asm.S
+OBJECTS = $(C_SOURCES:.c=.o) $(ASM_SOURCES:.S=.o)
+LIBS = libos.a
 
-kernel.o: kernel.c
-	aarch64-linux-gnu-gcc -g -pedantic -Wall -Wextra -fPIC -std=gnu2x -MMD -c kernel.c -o kernel.o
+# Output file
+OUTPUT = kernel.elf
 
-process.o: process.c
-	aarch64-linux-gnu-gcc -g -pedantic -Wall -Wextra -fPIC -std=gnu2x -MMD -c process.c -o process.o
+# Default target
+all: $(OUTPUT)
 
-queue.o: queue.c
-	aarch64-linux-gnu-gcc -g -pedantic -Wall -Wextra -fPIC -std=gnu2x -MMD -c queue.c -o queue.o
+# Linking
+$(OUTPUT): $(OBJECTS) $(LIBS)
+	$(LD) $(LD_FLAGS) -o $@ $(OBJECTS) $(LIBS)
 
-boot.o: boot.S
-	aarch64-linux-gnu-gcc -g -MMD -c boot.S -o boot.o
+# Compiling C source files
+%.o: %.c
+	$(CC) $(CFLAGS) -MMD -c $< -o $@
 
-box.o: box.S
-	aarch64-linux-gnu-gcc -g -MMD -c box.S -o box.o
+# Compiling Assembly source files
+%.o: %.S
+	$(CC) $(ASFLAGS) -MMD -c $< -o $@
 
-go.o: go.S
-	aarch64-linux-gnu-gcc -g -MMD -c go.S -o go.o
-
-process_asm.o: process_asm.S
-	aarch64-linux-gnu-gcc -g -MMD -c process_asm.S -o process_asm.o
-
+# Running the kernel
 run:
-	qemu-system-aarch64 -machine raspi3b   -kernel kernel.elf
+	qemu-system-aarch64 -machine raspi3b -kernel $(OUTPUT)
 
+# Debugging the kernel
 debug:
-	qemu-system-aarch64 -machine raspi3b  -S -s -kernel kernel.elf &
-	ddd --debugger 'gdb-multiarch -ex "target remote localhost:1234" -ex "break main" -ex "continue"' kernel.elf
+	qemu-system-aarch64 -machine raspi3b -S -s -kernel $(OUTPUT) &
+	ddd --debugger 'gdb-multiarch -ex "target remote localhost:1234" -ex "break main" -ex "continue"' $(OUTPUT)
 
+# Cleaning up
 clean:
-	rm -f *.o *.d kernel.elf 
+	rm -f *.o *.d $(OUTPUT)
 
+# Include dependency files
+-include $(OBJECTS:.o=.d)

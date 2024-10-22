@@ -1,11 +1,12 @@
-.section .text
+.global     go
+go:
+    b restore_context
 
-.extern ReadyQ
-.extern Running
-.extern enqueue
-.extern dequeue
-
-.global dispatch
+.global     dispatch
+.extern     ReadyQ
+.extern     Running
+.extern     enqueue
+.extern     dequeue
 
 // Note: dispatch must be written in assembly.
 dispatch:
