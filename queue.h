@@ -1,7 +1,10 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "globals.h"
+#include "pcb.h"
+
+PCB_Q_t* ReadyQ;
+PCB_t* Running;
 
 // Function declarations
 extern void enqueue(PCB_Q_t *q, PCB_t *pcb);

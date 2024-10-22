@@ -1,3 +1,12 @@
+.section .text
+
+.extern ReadyQ
+.extern Running
+.extern enqueue
+.extern dequeue
+
+.global dispatch
+
 ; Note: dispatch must be written in assembly.
 dispatch:
     ; 1)	subtract 16*16 from the stack

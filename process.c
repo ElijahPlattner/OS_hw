@@ -2,10 +2,10 @@
 
 int create_process(int (*code_address)()) {
     // Set stackptr to return value of calling alloc_stack() to allocate a stack
-    uint64_t stackptr = alloc_stack();
+    uint64_t* stackptr = alloc_stack();
 
     // Check to make sure stackptr is not null 
-    if (stackptr == 0) {
+    if (stackptr == NULL) {
         return -1;
     }
 
@@ -38,7 +38,7 @@ int create_process(int (*code_address)()) {
     pcb->pid = next_pid++;
 
     // Enqueue the PCB onto the ready queue (q is a global)
-    enqueue(q, pcb);
+    enqueue(ReadyQ, pcb);
 
     return 0;
 }

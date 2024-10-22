@@ -1,5 +1,6 @@
 #include "libos.h"
-#include "globals.h"
+#include "process.h"
+#include "pcb.h"
 
 //define externs
 extern int box(int srow, int scol, int erow, int ecol);
