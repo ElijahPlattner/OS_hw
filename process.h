@@ -6,8 +6,7 @@
 #include "stack_alloc.h"
 #include "queue.h"
 
-//global
-int next_pid = 0;
+
 
 // Function declaration
 int create_process(int (*code_address)());

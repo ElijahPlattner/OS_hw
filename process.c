@@ -1,5 +1,8 @@
 #include "process.h"
 
+//global
+int next_pid = 0;
+
 int create_process(int (*code_address)()) {
     // Set stackptr to return value of calling alloc_stack() to allocate a stack
     uint64_t* stackptr = alloc_stack();
