@@ -15,8 +15,7 @@ int main(){
     print_to(1, 1, "Running processes");
 
     //initialize rr queue data structure
-    PCB_Q_t * q;
-    q->head = q->tail = NULL;
+    ReadyQ->head = ReadyQ->tail = NULL;
 
     //create four processes
     retval = create_process(p1);
