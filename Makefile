@@ -1,6 +1,5 @@
 all: kernel.elf
-.global dispach
-.extern enqueue
+
 kernel.elf: kernel.o process.o queue.o boot.o box.o go.o process_asm.o libos.a
 	aarch64-linux-gnu-ld -g -N -Ttext=0x100000 -o kernel.elf kernel.o boot.o box.o libos.a
 

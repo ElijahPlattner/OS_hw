@@ -17,7 +17,7 @@ void clear_scr(int srow, int scol, int erow, int ecol){
 }
 
 //process code for process p1
-void p1(){
+int p1(){
     int num = 0;
     char output_char;
     char message[] = "Process 1: 0";
@@ -49,6 +49,8 @@ void p1(){
         dispatch();
 
     }
+
+    return 0;
 }
 
 //process code for process p2

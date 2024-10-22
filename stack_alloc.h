@@ -19,7 +19,7 @@ uint64_t *alloc_stack (){
         return NULL; //ELIJAH add error handling
     
     return stacks[next_stack++];
-};
+}
 
 #endif
 

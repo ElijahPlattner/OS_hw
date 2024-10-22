@@ -28,7 +28,7 @@ PCB_t *alloc_pcb(){
     next_pcb++;
 
     return new_pcb;
-};
+}
 
 #endif
 //questions: is it ok to use an array to define the mem that were using?
