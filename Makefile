@@ -6,10 +6,10 @@ kernel.elf: kernel.o process.o queue.o boot.o box.o go.o process_asm.o libos.a
 kernel.o: kernel.c kernel.h
 	aarch64-linux-gnu-gcc -g -pedantic -Wall -Wextra -fPIC -std=gnu2x -MMD -c kernel.c -o kernel.o
 
-process.o: process.c globals.h pcb-alloc.h stack_alloc.h
+process.o: process.c proess.h globals.h pcb-alloc.h stack_alloc.h
 	aarch64-linux-gnu-gcc -g -pedantic -Wall -Wextra -fPIC -std=gnu2x -MMD -c process.c -o process.o
 
-queue.o: queue.c globals.h
+queue.o: queue.c queue.h globals.h
 	aarch64-linux-gnu-gcc -g -pedantic -Wall -Wextra -fPIC -std=gnu2x -MMD -c queue.c -o queue.o
 
 boot.o: boot.S
