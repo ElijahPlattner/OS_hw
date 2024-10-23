@@ -13,19 +13,17 @@ int create_process(int (*code_address)()) {
     }
 
     // Set stack pointer (sp) to the bottom of the stack
-    uint32_t *sp = (uint32_t *)(stackptr + 1024);
+    //uint32_t *sp = (uint32_t *)(stackptr + 1024);
+    uint64_t *sp = (stackptr + 1024);
 
     // Create context that will set general purpose registers to 0
-    for (int i = 1; i <= 31; i++) {
+    for (int i = 0; i < 29; i++) {
         sp--;
-
-        // Set the value at which sp+30 points to code_address
-        if (i == 30) {
-            *sp = (uint64_t)code_address;
-        } else {
-            *sp = 0;
-        }
+        *sp = 0;
     }
+    // Set the value at which sp+30 points to code_address    
+    sp--;
+    *sp = (uint64_t)code_address;
 
     // Set PCB to the return value of alloc_pcb() to allocate a PCB for the process
     PCB_t *pcb = alloc_pcb();
@@ -37,11 +35,11 @@ int create_process(int (*code_address)()) {
 
     // Set the PCB's sp member to sp
     // Set the PCB's pid member to next_pid
-    pcb->sp = *sp;
+    pcb->sp = sp;
     pcb->pid = next_pid++;
 
     // Enqueue the PCB onto the ready queue (q is a global)
     enqueue(ReadyQ, pcb);
-
+    print_to(2, 1, "finished create process");
     return 0;
 }

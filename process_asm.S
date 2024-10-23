@@ -58,7 +58,8 @@ dispatch:
 
 restore_context:   // Note that this is where go() jumps
     // 6)	call dequeue passing it the address of ReadyQ
-    adr x0, ReadyQ
+    ldr x0, =ReadyQ          // Load the address of the ReadyQ pointer
+    ldr x0, [x0]             // Dereference to get the actual queue pointer
     bl dequeue
 
     // 7)  move the return value of dequeue into Running

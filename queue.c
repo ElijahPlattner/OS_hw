@@ -1,8 +1,11 @@
 #include "queue.h"
 
 // Define and initialize globals
-PCB_Q_t* ReadyQ = NULL;
-PCB_t* Running = NULL;
+PCB_Q_t ready_q_mem;
+PCB_Q_t* ReadyQ = &ready_q_mem;
+
+PCB_t running_mem;
+PCB_t* Running = &running_mem;
 
 void enqueue(PCB_Q_t *q, PCB_t *pcb) {
     // If the queue has nothing in it
