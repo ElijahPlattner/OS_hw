@@ -69,8 +69,6 @@ restore_context:   // Note that this is where go() jumps
     // 8)  read the value out of the returned pcb and put
     //     	it into the sp register. The code should look
     //         like the following:
-    adr		x1, Running
-    str		x0, [x1]   // store the pointer to the PCB into the Running variable
     ldr		x2, [x0]   // x2 now has the value of the stack ptr (we cant ldr sp directly)
     mov		sp, x2     // sp now has the top of stack for the chosen process
     

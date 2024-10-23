@@ -17,13 +17,12 @@ int create_process(int (*code_address)()) {
     uint64_t *sp = (stackptr + 1024);
 
     // Create context that will set general purpose registers to 0
-    for (int i = 0; i < 29; i++) {
+    for (int i = 0; i < 32; i++) {
         sp--;
         *sp = 0;
     }
     // Set the value at which sp+30 points to code_address    
-    sp--;
-    *sp = (uint64_t)code_address;
+    *(sp+30) = (uint64_t)code_address;
 
     // Set PCB to the return value of alloc_pcb() to allocate a PCB for the process
     PCB_t *pcb = alloc_pcb();
