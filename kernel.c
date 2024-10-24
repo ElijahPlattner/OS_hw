@@ -48,7 +48,7 @@ int p2(){
     char message[] = "Process 2: 0";
 
     //   print a box from row 12, column 23 to row 15, column 39
-    box(12, 23, 15, 39);
+    box(12, 23, 14, 39);
 
     print_to(13, 25, message);
     int num = 0;
@@ -118,7 +118,7 @@ int p4(){
     char message[] = "Process 4: 0";
 
     //   print a box from row 12, column 49 to row 15, column 65
-    box(12, 49, 15, 65);
+    box(12, 49, 14, 65);
     
     print_to(13, 51, message);
     int num = 0;
@@ -130,7 +130,7 @@ int p4(){
         message[11] = output_char;
 
         // 	print the message at row 10 column 25
-        print_to(13, 25, message);
+        print_to(13, 51, message);
         
         num++;
 
@@ -159,6 +159,9 @@ int main(){
 
     //initialize rr queue data structure
     ReadyQ->head = ReadyQ->tail = NULL;
+
+    //clear the entrance messages
+    clear_scr(0, 0, 2, 20);
 
     //create four processes
     retval = create_process(p1);

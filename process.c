@@ -32,13 +32,12 @@ int create_process(int (*code_address)()) {
         return -1;
     }
 
-    // Set the PCB's sp member to sp
+    // Set the PCB's sp member to sp, static cast so that the compiler does not complain
     // Set the PCB's pid member to next_pid
-    pcb->sp = sp;
+    pcb->sp = (uint64_t)sp;
     pcb->pid = next_pid++;
 
     // Enqueue the PCB onto the ready queue (q is a global)
     enqueue(ReadyQ, pcb);
-    print_to(2, 1, "finished create process");
     return 0;
 }
