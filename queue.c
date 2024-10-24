@@ -19,6 +19,7 @@ void enqueue(PCB_Q_t *q, PCB_t *pcb) {
     q->tail->next = pcb;
     q->tail = pcb;
     q->tail->next = NULL;
+    return;
 }
 
 PCB_t* dequeue(PCB_Q_t *q) {

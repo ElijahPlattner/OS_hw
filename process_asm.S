@@ -50,11 +50,12 @@ dispatch:
     // 		Running
 
     adr x0, ReadyQ
+    ldr x0, [x0]
 
     adr x1, Running
     ldr x1, [x1]
 
-    b enqueue
+    bl enqueue
 
 restore_context:   // Note that this is where go() jumps
     // 6)	call dequeue passing it the address of ReadyQ

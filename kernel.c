@@ -45,7 +45,7 @@ int main(){
 
 //process code for process p1
 int p1(){
-    int num = 0;
+    
     char output_char;
     char message[] = "Process 1: 0";
 
@@ -55,8 +55,8 @@ int p1(){
     //   print_to the message "Process 1: 0" at row 10 column 25
     
     print_to(10, 25, message);
-    
-    while(0 == 0){
+    int num = 0;
+    while(1){
         //      convert num to a character
         output_char = num + '0';
 
