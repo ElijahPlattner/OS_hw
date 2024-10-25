@@ -33,8 +33,9 @@ int create_process(int (*code_address)()) {
     }
 
     // Set the PCB's sp member to sp, static cast so that the compiler does not complain
-    // Set the PCB's pid member to next_pid
     pcb->sp = (uint64_t)sp;
+
+    // Set the PCB's pid member to next_pid
     pcb->pid = next_pid++;
 
     // Enqueue the PCB onto the ready queue (q is a global)

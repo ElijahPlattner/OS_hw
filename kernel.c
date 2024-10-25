@@ -149,10 +149,8 @@ int p4(){
 
 int main(){
 
-    int retval;
     //clear the screen
     clear_scr(21, 49, 27, 79);
-    //int returnVal = box(21, 49, 27, 79);
 
     //print "Running processes" to the first line of the screen
     print_to(1, 1, "Running processes");
@@ -164,7 +162,7 @@ int main(){
     clear_scr(0, 0, 2, 20);
 
     //create four processes
-    retval = create_process(p1);
+    int retval = create_process(p1);
     if(retval !=0)
         return 1;
 
@@ -184,6 +182,6 @@ int main(){
     //start processes
     go();
         
-    return 0;
+    return retval;
 }
 
