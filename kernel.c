@@ -1,10 +1,13 @@
 #include "kernel.h"
 
-//define externs
-extern int box(int srow, int scol, int erow, int ecol);
-extern void go();
-extern void dispatch();
+//function to clear the screen
+void clear_scr(int srow, int scol, int erow, int ecol){
 
+    for (int i = srow; i <= erow; i++){
+        for (int j = scol; j <= ecol; j++ )
+            putc_to(i, j, ' ');
+    }
+}
 
 //process code for process p1
 int p1(){
