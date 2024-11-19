@@ -35,10 +35,6 @@ int p1(){
         //     if num is greater than 9, set num to zero
         if (num > 9)
             num = 0;
-
-        //call dispatch
-        dispatch();
-
     }
 
     return 0;
@@ -70,9 +66,6 @@ int p2(){
         //     if num is greater than 9, set num to zero
         if (num > 9)
             num = 0;
-
-        //call dispatch
-        dispatch();
 
     }
 
@@ -106,9 +99,6 @@ int p3(){
         if (num > 9)
             num = 0;
 
-        //call dispatch
-        dispatch();
-
     }
 
     return 0;
@@ -140,9 +130,6 @@ int p4(){
         //     if num is greater than 9, set num to zero
         if (num > 9)
             num = 0;
-
-        //call dispatch
-        dispatch();
 
     }
 
@@ -187,8 +174,10 @@ int main(){
     
     
     //call function to set up exeption timer
+    setup_EVT();
 
     //initialize the timer
+    init_timer();
 
     //start processes
     go();

@@ -1,3 +1,7 @@
+.global init_timer
+
+.extern unsupported
+
 init_timer:
     stp     x29, x30, [sp, -16]!
     bl      clear_timer
@@ -57,6 +61,3 @@ vector_table:
     b unsupported
 .balign 128
     b unsupported
-
-unsupported:
-    
