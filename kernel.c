@@ -149,6 +149,10 @@ int p4(){
     return 0;
 }
 
+void unsupported(){
+    print_to(1, 1, "Error: unsupported exception!");
+    while(1){};
+}
 
 int main(){
 
@@ -182,6 +186,10 @@ int main(){
         return 1;
     
     
+    //call function to set up exeption timer
+
+    //initialize the timer
+
     //start processes
     go();
         
