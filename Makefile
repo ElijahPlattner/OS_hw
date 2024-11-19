@@ -12,7 +12,7 @@ ASMFLAGS = -g
 
 # Source files
 CSRC = kernel.c pcb_alloc.c process.c queue.c stack_alloc.c
-ASMSRC = boot.S box.S process_asm.S
+ASMSRC = boot.S box.S process_asm.S setup_EVT.S timer_asm.S
 
 # Object files
 COBJ = $(patsubst %.c,%.o,$(CSRC)) 

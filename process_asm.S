@@ -7,6 +7,7 @@ go:
 .extern     Running
 .extern     enqueue
 .extern     dequeue
+.extern     clear_timer
 
 // Note: dispatch must be written in assembly.
 dispatch:
@@ -15,7 +16,7 @@ dispatch:
     msr     DAIFSet, #0x2
 
     //store x1
-    str x1, sp
+    str x1, [sp]
 
     //load the process stack pointer
     MRS     x1, SP_EL0
@@ -25,7 +26,7 @@ dispatch:
 
     //save process general purpose registers
     str x0, [x1]
-    ldr x0, sp
+    ldr x0, [sp]
     str x0, [x1,8]
 
     // 2)	copy all registers to the stack the stack
@@ -131,7 +132,7 @@ restore_context:   // Note that this is where go() jumps
     // 11) add 16*16 to sp
     //add sp, sp, 256
 
-    sub sp, sp 16
+    sub sp, sp, 16
     stp x0, x1, [sp]
 
     // branch to clear timer

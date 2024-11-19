@@ -1,5 +1,6 @@
 .global setup_EVT
 
+.extern vector_table
 setup_EVT:
 // set up the exception vector table
     adr     x0, vector_table 

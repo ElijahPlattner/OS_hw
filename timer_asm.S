@@ -1,6 +1,9 @@
 .global init_timer
+.global clear_timer
+.global vector_table
 
 .extern unsupported
+
 
 init_timer:
     stp     x29, x30, [sp, -16]!
