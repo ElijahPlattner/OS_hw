@@ -38,12 +38,12 @@ $(ASMOBJ): %.o: %.S
 
 # Running the kernel in QEMU
 run:
-	qemu-system-aarch64 -machine raspi3b -kernel kernel.elf
+	qemu-system-aarch64 -machine raspi3b -kernel kernel.elf -d int -D quemu.log
 
 # Debugging the kernel with GDB and QEMU
 debug:
 	qemu-system-aarch64 -machine raspi3b -S -s -kernel kernel.elf &
-	ddd --debugger 'gdb-multiarch -ex "target remote localhost:1234" -ex "break main" -ex "continue"' kernel.elf
+	ddd --debugger 'gdb-multiarch -ex "target remote localhost:1234" -ex "break main" -ex "continue"' kernel.elf -d int -D quemu.log
 
 # Cleaning object and output files
 clean:
