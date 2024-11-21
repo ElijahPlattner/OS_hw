@@ -24,15 +24,15 @@ dispatch:
     //make room for the process context on the stack
     sub x1, x1, 16*17
 
-    //save process general purpose registers
-    str x0, [x1]
-    ldr x0, [sp]
-    str x0, [x1,8]
-
-    // 2)	copy all registers to the stack the stack
-    // 		(in the order x0,x1,...,x30)
-    //stp x0, x1, [x1]//!
+    //store x2 and x3 so that we can use x2 to store x1
     stp x2, x3, [x1, 16]
+
+    //save process general purpose registers
+    ldr x2, [sp] //load the unmodified x1 into x2
+    stp x0, x2, [x1] //store x0 and x1
+
+    // 2)	copy all remaining registers to the stack the stack
+    // 		(in the order x0,x1,...,x30)
     stp x4, x5, [x1, 16*2]
     stp x6, x7, [x1, 16*3]
     stp x8, x9, [x1, 16*4]
@@ -63,10 +63,11 @@ dispatch:
     str     x0, [x1, 16*16]
 
     // 4)	store the new x1 value into the pcb where Running points
-    adr     x1, Running
-    ldr     x1, [x1]  // put the first value in the PCB (x1) into x1
-    mov     x4, x1    // We can't str x1 directly, so put x1 into x4...
-    str     x4, [x1]  //    Then store the new x1 in x4 to the PCB 
+    adr     x0, Running
+    ldr     x0, [x0]  // put the first value in the PCB (x1) into x1
+    //mov     x4, x1    // We can't str x1 directly, so put x1 into x4...
+    str     x1, [x0]  //    Then store the new x1 in x4 to the PCB 
+
 
     // 5)	call enqueue passing it address of ReadyQ and the value of
     // 		Running
@@ -78,7 +79,7 @@ dispatch:
     ldr x1, [x1]
 
     //restore x1
-    ldr x1, [sp], #16//!
+    //ldr x1, [sp], #16//!
 
     bl enqueue
 
@@ -115,7 +116,7 @@ restore_context:   // Note that this is where go() jumps
     // 10) copy all register values for x2-x28 from the stack at
     //         which x1 points into those registers.
     
-    ldp x0, x1, [x1, 0]//!
+    ldp x0, x1, [x1]
     ldp x2, x3, [x1, 16]
     ldp x4, x5, [x1, 16*2]
     ldp x6, x7, [x1, 16*3]
