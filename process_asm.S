@@ -16,7 +16,7 @@ dispatch:
     msr     DAIFSet, #0x2
 
     //store x1
-    str x1, [sp]
+    str x1, [sp, #-16]!
 
     //load the process stack pointer
     MRS     x1, SP_EL0
@@ -31,7 +31,7 @@ dispatch:
 
     // 2)	copy all registers to the stack the stack
     // 		(in the order x0,x1,...,x30)
-
+    //stp x0, x1, [x1]//!
     stp x2, x3, [x1, 16]
     stp x4, x5, [x1, 16*2]
     stp x6, x7, [x1, 16*3]
@@ -49,6 +49,7 @@ dispatch:
 
     //store the x30 reg
     str x30, [x1, 16*15]
+// push this and test it. also see if the registers match whats happening in the vm
 
 
 
@@ -76,12 +77,15 @@ dispatch:
     adr x1, Running
     ldr x1, [x1]
 
+    //restore x1
+    ldr x1, [sp], #16//!
+
     bl enqueue
 
 restore_context:   // Note that this is where go() jumps
     // 6)	call dequeue passing it the address of ReadyQ
-    ldr x0, =ReadyQ          // Load the address of the ReadyQ pointer
-    ldr x0, [x0]             // Dereference to get the actual queue pointer
+    ldr x0, =ReadyQ          //!// Load the address of the ReadyQ pointer
+    ldr x0, [x0]   //!didnt have          // Dereference to get the actual queue pointer
     bl dequeue
 
     // 7)  move the return value of dequeue into Running
@@ -91,8 +95,8 @@ restore_context:   // Note that this is where go() jumps
     // 8)  read the value out of the returned pcb and put
     //     	it into the x1 register. The code should look
     //         like the following:
-    ldr		x2, [x0]   // x2 now has the value of the stack ptr (we cant ldr sp directly)
-    mov		x1, x2     // x1 now has the top of stack for the chosen process
+    ldr		x1, [x0]   // x2 now has the value of the stack ptr (we cant ldr sp directly)
+    //mov		x1, x2     // x1 now has the top of stack for the chosen process
     
     // 9)	restore the PSTATE stored in the stack
     ldr     x0, [x1, 16*15+8]   // Restore PSTATE
@@ -111,7 +115,7 @@ restore_context:   // Note that this is where go() jumps
     // 10) copy all register values for x2-x28 from the stack at
     //         which x1 points into those registers.
     
-    //ldp x0, x1, [x1]
+    ldp x0, x1, [x1, 0]//!
     ldp x2, x3, [x1, 16]
     ldp x4, x5, [x1, 16*2]
     ldp x6, x7, [x1, 16*3]
@@ -132,17 +136,23 @@ restore_context:   // Note that this is where go() jumps
     // 11) add 16*16 to sp
     //add sp, sp, 256
 
-    sub sp, sp, 16
-    stp x0, x1, [sp]
+    stp x0, x1, [sp, -16]!
 
     // branch to clear timer
     bl clear_timer
 
     //restore x0 and x1
-    ldp x0, x1, [x1]
+    ldp x0, x1, [sp], 16
+
+    //restore  x29
+    ldr x29, [x1, 16*14+8]
 
     //restore  x30
     ldr x30, [x1, 16*15]
+    
+    //this might have fixed it
+    //restore x0 and x1
+    ldp x0, x1, [x1]
 
     //enable interupts
     msr     DAIFClr, #0x2
