@@ -116,7 +116,7 @@ restore_context:   // Note that this is where go() jumps
     // 10) copy all register values for x2-x28 from the stack at
     //         which x1 points into those registers.
     
-    ldp x0, x1, [x1]
+    //ldp x0, x1, [x1]
     ldp x2, x3, [x1, 16]
     ldp x4, x5, [x1, 16*2]
     ldp x6, x7, [x1, 16*3]
